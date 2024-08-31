@@ -1,0 +1,40 @@
+<div #wrapper class="wrapper">
+  <div class="top-bar">
+    <div class="square flag-mode">
+      <button (click)="flagMode = !flagMode" [disabled]="!firstClickPosition">
+        <img *ngIf="flagMode" src="flag.png" alt="Flag mode" width="50" />
+        <img *ngIf="!flagMode" src="dirt.png" alt="Reveal mode" width="50" />
+      </button>
+    </div>
+
+    <div class="square">💣 {{ bombsRemaining }}</div>
+
+    <button class="villager-button" (click)="resetGame()">
+      <img *ngIf="gameState.alive" src="alive.png" width="60" alt="Dead" />
+      <img *ngIf="!gameState.alive" src="dead.png" width="60" alt="Dead" />
+    </button>
+
+    <div class="square">{{ time$ | async }} ⏱️</div>
+  </div>
+
+  <div #grid class="grid" [style]="gridStyles">
+    @for (row of cells; track $index) { @for (cell of row; track cell.position)
+    {
+    <div
+      #el
+      (click)="revealCell(cell.position)"
+      (dblclick)="double(cell.position)"
+      (contextmenu)="flagCell(cell.position, $event)"
+      [class.revealed]="cell.revealed"
+      [class.bomb]="cell.revealed && cell.mine"
+      [class.flag]="cell.flagged"
+    >
+      <ng-container *ngIf="cell.revealed">
+        <span *ngIf="cell.mine"></span>
+        <span *ngIf="cell.number">{{ cell.number }}</span>
+      </ng-container>
+      <span *ngIf="cell.flagged"></span>
+    </div>
+    } }
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="menu">
+  <h1>Minecreeper</h1>
+
+  <div class="menu-controls">
+    <p class="control-label">Difficulty</p>
+    <mat-button-toggle-group
+      [(ngModel)]="state.difficulty"
+      name="difficulty"
+      aria-label="Difficulty"
+    >
+      @for (difficulty of state.difficultyOptions; track $index) {
+      <mat-button-toggle [value]="difficulty">{{
+        difficulty.name
+      }}</mat-button-toggle>
+      }
+    </mat-button-toggle-group>
+
+    <div class="info">
+      <img src="grass-3d.png" alt="Blocks" width="60" />
+      {{ state.difficulty.width }} X {{ state.difficulty.height }}
+    </div>
+
+    <div class="info">
+      <img src="creeper-3d.png" alt="Creepers" width="60" />
+      {{ state.difficulty.bombs }}
+    </div>
+  </div>
+
+  <button [routerLink]="['/games', 'minecreeper', 'play']">START</button>
+</div>
